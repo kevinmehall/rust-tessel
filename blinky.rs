@@ -65,7 +65,7 @@ impl<T:Copy> Reg<T> {
   #[inline]
   fn get(&self) -> T {
     unsafe {
-      volatile_load(self.value.get() as *T)
+      volatile_load(self.value.get() as *const T)
     }
   }
 
@@ -97,7 +97,7 @@ impl Reg<u32> {
 
 impl SysTick {
   fn get() -> &'static SysTick {
-    unsafe { &*(SysTick_BASE as *SysTick) }
+    unsafe { &*(SysTick_BASE as *const SysTick) }
   }
 
   fn init(&self, ticks: u32) {
@@ -140,7 +140,7 @@ static DRIVE_20MA: u32 =        (3 << 8);	// Drive strength of 20mA
 
 impl SCU {
   fn get() -> &'static SCU {
-    unsafe { &*(SCU_BASE as *SCU) }
+    unsafe { &*(SCU_BASE as *const SCU) }
   }
 
   fn pinmux(&self, (port, pin): (u8, u8), mode: u32, func: u32) {
@@ -177,7 +177,7 @@ struct GPIO {
 
 impl GPIO {
   fn get() -> &'static GPIO {
-    unsafe { &*(GPIO_PORT_BASE as *GPIO) }
+    unsafe { &*(GPIO_PORT_BASE as *const GPIO) }
   }
 
   fn dir(&self, (port, pin): (u8, u8), output: bool) {
