@@ -12,7 +12,6 @@ extern crate core;
 use core::prelude::*;
 
 use core::mem;
-use core::raw::Slice;
 use core::intrinsics::{volatile_load, volatile_store};
 use core::ty::Unsafe;
 
