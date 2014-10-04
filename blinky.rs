@@ -4,8 +4,8 @@
 #![feature(lang_items)]
 #![feature(asm)]
 
-#![allow(uppercase_variables)]
-#![allow(non_camel_case_types)]
+#![allow(dead_code)]
+#![allow(non_snake_case)]
 
 extern crate core;
 
@@ -15,8 +15,8 @@ use core::mem;
 use core::intrinsics::{volatile_load, volatile_store};
 use core::ty::Unsafe;
 
-#[lang = "begin_unwind"]
-extern fn begin_unwind(args: &core::fmt::Arguments,
+#[lang = "fail_fmt"]
+extern fn fail_fmt(args: &core::fmt::Arguments,
                        file: &str,
                        line: uint) -> ! {
     loop {}
