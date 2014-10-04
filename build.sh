@@ -4,6 +4,12 @@ set -e
 NAME=${1%.rs}
 echo "Building $NAME"
 
-rustc --target thumbv7m-linux-eabi -C target-cpu=cortex-m3 -L . "$NAME.rs" --emit=obj -g  -o "$NAME.o" -Z no-landing-pads -O
-arm-none-eabi-gcc -g -T tessel-ram.ld -ffunction-sections -lm -lc -lnosys -Wl,--gc-sections lpc18xx-startup.s "$NAME.o" -o "$NAME.elf"
+CROSS=arm-none-eabi
+LIBGCC=$($CROSS-gcc -march=armv7-m -print-libgcc-file-name)
+
+rustc --target thumbv7m-linux-eabi  -C target-cpu=cortex-m3 \
+      -C relocation_model=static -Z no-landing-pads \
+      -L . "$NAME.rs" --emit=obj -g  -o "$NAME.o"  --opt-level 2
+$CROSS-gcc -c lpc18xx-startup.s
+$CROSS-ld -T tessel-ram.ld --gc-sections "$NAME.o" lpc18xx-startup.o $LIBGCC -o "$NAME.elf"
 arm-none-eabi-objcopy -O binary "$NAME.elf" "$NAME.bin"

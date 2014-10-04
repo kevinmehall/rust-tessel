@@ -1,34 +1,19 @@
 #![no_std]
-#![no_main]
-#![feature(globs)]
-#![feature(lang_items)]
-#![feature(asm)]
+#![feature(globs, lang_items, asm)]
+#![crate_type="rlib"]
 
 #![allow(dead_code)]
 #![allow(non_snake_case)]
 
 extern crate core;
+extern crate rlibc;
 
 use core::prelude::*;
 
-use core::mem;
 use core::intrinsics::{volatile_load, volatile_store};
 use core::ty::Unsafe;
 
-#[lang = "fail_fmt"]
-extern fn fail_fmt(args: &core::fmt::Arguments,
-                       file: &str,
-                       line: uint) -> ! {
-    loop {}
-}
-
-#[lang = "stack_exhausted"] extern fn stack_exhausted() {}
-#[lang = "eh_personality"] extern fn eh_personality() {}
-#[no_mangle]
-pub unsafe extern "C" fn _kill() { loop{} }
-
-#[no_mangle]
-pub unsafe extern "C" fn _getpid() { loop{} }
+pub mod support;
 
 static SCS_BASE: uint = 0xE000E000; // System Control Space Base Address
 static SysTick_BASE: uint = SCS_BASE +  0x0010; // SysTick Base Address

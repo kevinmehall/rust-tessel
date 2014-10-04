@@ -13,10 +13,11 @@ git clone https://github.com/kevinmehall/rust-tessel
 cd rust-tessel
 ```
 
-You need a copy of Rust's `libcore` compiled for ARM, so clone the `rust` repository and build the library:
+You need a copy of Rust's `libcore` and `rlibc` compiled for ARM, so clone the `rust` repository and build the library:
 ```.sh
 git clone https://github.com/rust-lang/rust
 rustc -O --target=thumbv7m-linux-eabi rust/src/libcore/lib.rs
+rustc -O --target=thumbv7m-linux-eabi rust/src/librlibc/lib.rs -L .
 ```
 
 I've wrapped the commands to compile, link, and produce a binary image into `build.sh` script
