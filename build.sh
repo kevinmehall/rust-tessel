@@ -7,7 +7,7 @@ echo "Building $NAME"
 CROSS=arm-none-eabi
 LIBGCC=$($CROSS-gcc -march=armv7-m -print-libgcc-file-name)
 
-rustc --target thumbv7m-linux-eabi  -C target-cpu=cortex-m3 \
+rustc --target thumbv7m-none-eabi  -C target-cpu=cortex-m3 \
       -C relocation_model=static -Z no-landing-pads \
       -L . "$NAME.rs" --emit=obj -g  -o "$NAME.o"  --opt-level 2
 $CROSS-gcc -c lpc18xx-startup.s

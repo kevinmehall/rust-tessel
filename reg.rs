@@ -1,10 +1,10 @@
 use core::prelude::*;
 use core::intrinsics::{volatile_load, volatile_store};
-use core::ty::Unsafe;
+use core::cell::UnsafeCell;
 
 #[repr(C)]
 pub struct Reg<T> {
-  value: Unsafe<T>,
+  value: UnsafeCell<T>,
 }
 
 impl<T:Copy> Reg<T> {

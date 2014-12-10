@@ -18,20 +18,17 @@ use core;
 
 #[doc(hidden)]
 #[cfg(test)]
-#[no_split_stack]
 #[no_mangle]
 pub extern fn breakpoint() { unimplemented!() }
 
 /// Call the debugger.
 #[cfg(not(test))]
-#[no_split_stack]
 #[no_mangle]
 pub extern fn breakpoint() {
     unsafe { asm!("bkpt") }
 }
 
 /// Call the debugger and halts execution.
-#[no_split_stack]
 #[no_mangle]
 pub extern fn abort() -> ! {
     breakpoint();
@@ -39,21 +36,18 @@ pub extern fn abort() -> ! {
 }
 
 #[doc(hidden)]
-#[no_split_stack]
 #[no_mangle]
 pub extern fn __aeabi_unwind_cpp_pr0() {
     abort();
 }
 
 #[doc(hidden)]
-#[no_split_stack]
 #[no_mangle]
 pub extern fn __aeabi_unwind_cpp_pr1() {
     abort();
 }
 
 #[doc(hidden)]
-#[no_split_stack]
 #[no_mangle]
 pub extern fn get_eit_entry() {
     abort();

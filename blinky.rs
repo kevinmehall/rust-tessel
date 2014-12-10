@@ -6,7 +6,7 @@
 #![allow(non_snake_case)]
 
 extern crate core;
-extern crate rlibc;
+//extern crate rlibc;
 
 use core::prelude::*;
 use arm::SysTick;
@@ -18,7 +18,6 @@ pub mod arm;
 pub mod lpc1800;
 
 #[no_mangle]
-#[no_split_stack]
 pub unsafe extern "C" fn _reset_handler() {
   let systick = SysTick::get();
   let scu = SCU::get();
